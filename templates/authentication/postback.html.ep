@@ -1,0 +1,7 @@
+% layout 'default';
+% title 'Fuck Diabetes: Home';
+<h1>Dump!</h1>
+%= tag pre => begin
+%= dumper {mydata => $mydata}
+% end
+<strong>Session ID is <%= $session_id %></strong>

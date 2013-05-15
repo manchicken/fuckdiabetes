@@ -1,0 +1,6 @@
+% layout 'default';
+% title 'Fuck Diabetes: Home';
+<h1>Dump!</h1>
+%= tag pre => begin
+%= dumper {configdata => $configdata}
+% end

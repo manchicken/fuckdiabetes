@@ -1,0 +1,20 @@
+% layout 'default';
+% title 'Fuck Diabetes: Home';
+
+% if ($can_post) {
+	%= link_to 'New Brag' => '/brags/create'
+% }
+
+% if ($brags->count == 0) {
+	%= tag p => 'Nothing to see here...'
+% }
+
+%= tag ul => begin
+	% while ( my $generic = $brags->next ) {
+		% my $specific = $generic->apply_schema();
+		<%# %= dumper { single => $single } %>
+		<h2><%= $specific->title() %></h2>
+		<p>by <%= $specific->author->name %> at <%= $specific->timestamp_formatted() %></p>
+		<p><%= $specific->body() %></p>
+	% }
+% end

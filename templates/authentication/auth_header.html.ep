@@ -1,0 +1,15 @@
+<div id="auth">
+	% use aliased 'FuckDiabetes::Data::FacebookSession';
+  % my $_id = $self->session('_id');
+  % my $fbs = undef;
+  
+  % if (defined($_id) && length($_id) > 0) {
+  %   $fbs = FacebookSession->find_by_session_id($_id);
+  % }
+  
+  % if (defined($fbs)) {
+		Logged in as <%= $fbs->name %>
+	% } else {
+		%= link_to 'Please log in'=>url_for('/login')->query(goto=>$self->current_route)
+	% }
+</div>

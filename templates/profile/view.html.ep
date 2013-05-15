@@ -1,0 +1,3 @@
+% layout 'default';
+% title 'Fuck Diabetes: View Profile';
+<p><strong>Name:</strong> <%= $model->name %></p>

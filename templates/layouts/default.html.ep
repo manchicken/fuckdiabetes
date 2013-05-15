@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  	<base href="<%= $self->app->config->{baseurl} %>" />
+  	<title><%= title %></title>
+  	<!--[if lt IE 9]>
+			<script src="html5shiv/dist/html5shiv.js"></script>
+		<![endif]-->
+		<style type="text/css">
+			@import url("default.css");
+		</style>
+  </head>
+  <body>
+  	<article>
+  		%= include '/authentication/auth_header'
+	  	<header id="main-header">
+	  		<h1 id="header-text">Fuck Diabetes</h1>
+	  	</header>
+	  	<section id="main-body">
+				% if (defined($self->session) && defined($self->session->{new_flash}) && defined($self->session->{new_flash}->{message}) && length($self->session->{new_flash}->{message})) {
+					<h3 class="flash"><%= $self->session->{new_flash}->{message} %></h3>
+				% } elsif (defined($self->session) && defined($self->session->{flash}) && defined($self->session->{flash}->{message}) && length($self->session->{flash}->{message})) {
+					<h3 class="flash"><%= $self->session->{flash}->{message} %></h3>
+				% }
+				<%= content %>
+			</section>
+			<footer id="main-footer">
+				<p>Copyright &copy; 2012 - Michael D. Stemle, Jr.</p>
+			</footer>
+		</article>
+		<pre>
+		%= dumper {_id=>$self->session}
+		</pre>
+  </body>
+</html>

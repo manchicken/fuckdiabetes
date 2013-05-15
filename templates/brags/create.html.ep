@@ -1,0 +1,15 @@
+% layout 'default';
+% title 'Fuck Diabetes: Brag!';
+%= form_for '/brags/save' => (method=>'POST') => begin
+	%= tag p => (class=>'field') => begin
+		%= tag label => 'Title of the Brag'
+		%= text_field 'title'
+	% end
+	%= tag p => (class=>'field') => begin
+		%= tag label => 'Body of the Brag'
+		%= text_area 'body'
+	% end
+	%= tag p => (class=>'field') => begin
+		%= submit_button 'Brag Now!'
+	% end
+% end
