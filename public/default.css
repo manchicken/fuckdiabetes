@@ -59,10 +59,10 @@ body {
 	height: 100%;
 }
 
-#auth {
+#auth, #auth a, #auth a img {
 	/*float: right;*/
 	text-align: right;
-	margin: .25em;
+	margin: .25em .00em .25em .25em;
 	/*margin-top: -5.75em;*/
 	/*color: white;*/
 	/*margin-left: -4em;*/

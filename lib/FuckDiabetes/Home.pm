@@ -11,7 +11,7 @@ sub welcome {
 
   my $fbs = FacebookSession->find_by_session_id($self->session('_id'));
 
-  my $can_post = ($fbs != undef);
+  my $can_post = defined($fbs);
 
 	my $brags = Brag->find(
 		{

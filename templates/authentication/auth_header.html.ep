@@ -10,6 +10,8 @@
   % if (defined($fbs)) {
 		Logged in as <%= $fbs->name %>
 	% } else {
-		%= link_to 'Please log in'=>url_for('/login')->query(goto=>$self->current_route)
+		%= link_to url_for('/login')->query(goto=>$self->current_route), id=>'loginlink' => begin
+        %= image 'fblogin.png', width => 300, id=>'fblogin', alt => 'Log In with Facebook'
+		% end
 	% }
 </div>

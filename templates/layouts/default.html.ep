@@ -25,11 +25,11 @@
 				<%= content %>
 			</section>
 			<footer id="main-footer">
-				<p>Copyright &copy; 2012 - Michael D. Stemle, Jr.</p>
+				<p>Copyright &copy; 2012-2013 - Michael D. Stemle, Jr.</p>
 			</footer>
 		</article>
 		<pre>
-		%= dumper {_id=>$self->session}
+		%# dumper {_id=>$self->session}
 		</pre>
   </body>
 </html>

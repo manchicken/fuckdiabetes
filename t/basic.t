@@ -1,7 +1,13 @@
+#!/usr/bin/env perl
 use Mojo::Base -strict;
 
 use Test::More tests => 3;
 use Test::Mojo;
 
+use Data::Dumper;
+
 my $t = Test::Mojo->new('FuckDiabetes');
-$t->get_ok('/')->status_is(200)->content_like(qr/Mojolicious/i);
+$t->get_ok('http://fuckdiabetes.info/')->status_is(200)->content_like(qr/Fuck Diabetes: Home/i);
+
+# my $html = $t->{tx}->{res}->{content};
+# print STDOUT Dumper($html);
