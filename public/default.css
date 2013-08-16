@@ -59,14 +59,22 @@ body {
 	height: 100%;
 }
 
-#auth, #auth a, #auth a img {
-	/*float: right;*/
-	text-align: right;
-	margin: .25em .00em .25em .25em;
+#auth, #auth > p {
+	float: right;
+	text-align: right !important;
+	margin: 0em;
+  vertical-align: bottom;
 	/*margin-top: -5.75em;*/
 	/*color: white;*/
 	/*margin-left: -4em;*/
 	/*width: 4em;*/
+}
+
+#signinButtonContainer {
+    display: inline;
+    width: 4em;
+    margin-right: .1em;
+    text-align: right;
 }
 
 header {

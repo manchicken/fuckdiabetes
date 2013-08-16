@@ -21,7 +21,7 @@ has 'date' => (
 	default=>sub{ DateTime->now }
 );
 
-has_one 'fb_session' => 'FuckDiabetes::Data::FacebookSession';
+# has_one 'fb_session' => 'FuckDiabetes::Data::FacebookSession';
 # has_many 'brags' => 'FuckDiabetes::Data::Brag';
 
 sub find_by_name {

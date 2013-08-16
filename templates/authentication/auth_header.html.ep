@@ -1,17 +1,32 @@
+% if (0) {
 <div id="auth">
-	% use aliased 'FuckDiabetes::Data::FacebookSession';
-  % my $_id = $self->session('_id');
-  % my $fbs = undef;
-  
-  % if (defined($_id) && length($_id) > 0) {
-  %   $fbs = FacebookSession->find_by_session_id($_id);
-  % }
-  
-  % if (defined($fbs)) {
-		Logged in as <%= $fbs->name %>
-	% } else {
-		%= link_to url_for('/login')->query(goto=>$self->current_route), id=>'loginlink' => begin
-        %= image 'fblogin.png', width => 300, id=>'fblogin', alt => 'Log In with Facebook'
-		% end
-	% }
+% use aliased 'FuckDiabetes::Data::FacebookSession';
+% my $_id = $self->session('_id');
+% my $fbs = undef;
+
+% if (defined($_id) && length($_id) > 0) {
+%   $fbs = FacebookSession->find_by_session_id($_id);
+% }
+
+% if (defined($fbs)) {
+Logged in as <%= $fbs->name %>
+% } else {
+%=  link_to url_for('/login')->query(goto=>$self->current_route), id=>'loginlink' => begin
+    %= image '/fblogin2.png', alt=>'Log In with Facebook', id => 'fblogin'
+%   end
+% }
+</div>
+% }
+% # TODO: Stick some of this Google Plus stuff into the config file.
+<div id="loginButtonContainer">
+<span id="signinButton">
+  <span
+    class="g-signin"
+    data-callback="signinCallback"
+    data-clientid="877605104849.apps.googleusercontent.com"
+    data-cookiepolicy="single_host_origin"
+    data-requestvisibleactions="http://schemas.google.com/AddActivity"
+    data-scope="https://www.googleapis.com/auth/plus.login">
+  </span>
+</span>
 </div>

@@ -1,2 +1,4 @@
 log/*.log
 public/html5shiv
+*.kdev4
+.kdev4
