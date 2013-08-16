@@ -4,10 +4,27 @@ package FuckDiabetes::Data::User;
 use Mongoose::Class;
 use namespace::autoclean;
 
+=pod
+
+=head1 NAME
+
+FuckDiabetes::Data::User - A data model for Users within the FuckDiabetes application.
+
+=head1 SYNOPSIS
+
+ use FuckDiabetes::Data::User;
+
+=cut
+
 with 'Mongoose::Document' => {
 	-collection_name => 'fd_users',
-	-pk => [qw/ name /],
+	-pk => [qw/ access_token /],
 };
+
+has 'access_token' => (
+	is=>'rw',
+	isa=>'Str',
+);
 
 has 'name' => (
 	is => 'rw',
@@ -21,21 +38,16 @@ has 'date' => (
 	default=>sub{ DateTime->now }
 );
 
-# has_one 'fb_session' => 'FuckDiabetes::Data::FacebookSession';
-# has_many 'brags' => 'FuckDiabetes::Data::Brag';
-
 sub find_by_name {
-	my ($self, $name) = @_;
+	my ($pkg, $name) = @_;
 
-	return $self->find_one({name=>$name});
+	return $pkg->find_one({name=>$name});
 }
 
-sub find_by_id {
-	my ($self, $_id) = @_;
+sub find_by_access_token {
+	my ($pkg, $access_token) = @_;
 
-	$_id ||= $self->_id;
-
-	return $self->find_one({id=>$_id});
+	return $pkg->find_one({access_token=>$access_token});
 }
 
 no Moose;

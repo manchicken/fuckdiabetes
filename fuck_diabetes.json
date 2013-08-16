@@ -1,8 +1,11 @@
 {
 	"censored" : 0,
-	"appid" : "161639460643573",
-	"appsecret" : "bbba3bb109f14de4468b92a3817afaf5",
+  "mongo_instance" : "fddata",
+  "test_mongo_instance" : "fdtest",
+
+	"appid" : "",
+	"appsecret" : "",
 	"postback" : "http://fuckdiabetes.info/postback",
-	"secret" : "$#BTRTg 4g 45ergrtew$#H ",
+	"secret" : "",
 	"baseurl" : "http://fuckdiabetes.info/"
 }

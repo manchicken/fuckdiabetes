@@ -3,13 +3,18 @@ use Mojo::Base 'Mojolicious';
 
 use Mongoose;
 use aliased 'FuckDiabetes::Data::FacebookSession' => 'FacebookSession';
-Mongoose->db('fuckdiabetes');
 
 # This method will run once at server start
 sub startup {
   my ($self) = @_;
 	
 	$self->plugin('JSONConfig');
+
+  if (exists($ENV{FD_TESTING})) {
+    Mongoose->db($self->app->config->{test_mongo_instance});
+  } else {
+    Mongoose->db($self->app->config->{mongo_instance});
+  }
 
   # Documentation browser under "/perldoc"
   $self->plugin('PODRenderer');
