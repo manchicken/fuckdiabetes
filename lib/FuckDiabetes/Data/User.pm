@@ -38,6 +38,12 @@ has 'date' => (
 	default=>sub{ DateTime->now }
 );
 
+sub oid {
+	my ($self) = @_;
+
+	return $self->_id->{value};
+}
+
 sub find_by_name {
 	my ($pkg, $name) = @_;
 
