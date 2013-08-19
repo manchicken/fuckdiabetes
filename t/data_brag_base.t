@@ -52,7 +52,8 @@ is($one_loaded->title, 'brag 1', 'Verify we loaded what we wanted...');
 is($one_loaded->timestamp_formatted, 'Jan 15, 2008 5:48:00 PM', 'Verify that the formatted timestamp works...');
 is($one_loaded->author->oid, $user->oid, 'Verify that the OID matches...');
 
-# Now let's try loading by author now :)
+# TODO: This test isn't done yet, the cursor isn't playing nice...
+# Now let's try loading by author now
 # my $byauthor_obj = FuckDiabetes::Data::Brag->find_all_by_author($user);
 # isa_ok($byauthor_obj, q{Mongoose::Cursor}, 'Verify that we have a cursor...');
 # my $obj1 = $byauthor_obj->next();
