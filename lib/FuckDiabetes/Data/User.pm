@@ -4,6 +4,8 @@ package FuckDiabetes::Data::User;
 use Mongoose::Class;
 use namespace::autoclean;
 
+use FuckDiabetes::Data::Brag;
+
 =pod
 
 =head1 NAME
@@ -18,7 +20,6 @@ FuckDiabetes::Data::User - A data model for Users within the FuckDiabetes applic
 
 with 'Mongoose::Document' => {
 	-collection_name => 'fd_users',
-	-pk => [qw/ access_token /],
 };
 
 has 'access_token' => (
@@ -35,7 +36,12 @@ has 'date' => (
 	is=>'rw',
 	isa=>'DateTime',
 	traits=>['Raw'],
-	default=>sub{ DateTime->now }
+	default=>sub{ DateTime->now },
+);
+
+has_many 'brags' => (
+  is=>'rw',
+  isa=>q{FuckDiabetes::Data::Brag},
 );
 
 sub oid {

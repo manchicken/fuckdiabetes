@@ -13,7 +13,7 @@ sub BEGIN {
 
 sub END {
   my $collection = FuckDiabetes::Data::User->collection();
-  $collection->remove();
+  $collection->drop();
   print "Cleaned up!\n";
 }
 

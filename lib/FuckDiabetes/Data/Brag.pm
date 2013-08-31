@@ -9,11 +9,12 @@ use MongoDB::OID;
 use DateTime;
 use Data::Dumper;
 
-use aliased 'FuckDiabetes::Data::Locale';
-use aliased 'FuckDiabetes::Data::User';
+use FuckDiabetes::Data::Locale;
+use FuckDiabetes::Data::User;
 
 with 'Mongoose::Document' => {
 	-collection_name => 'brags',
+    -pk => [qw/ _id /],
 };
 
 has 'title' => (
@@ -29,28 +30,44 @@ has 'body' => (
 has 'active' => (
 	is => 'rw',
 	isa => 'Bool',
-	default => 1,
+
+default => 1,
 );
 
 has 'timestamp' => (
 	is => 'ro',
-	isa => 'DateTime',
+	isa => q{DateTime},
 	default => sub { return DateTime->now(); },
 );
 
 has 'brag_schema' => (
 	is => 'ro',
 	isa => 'Str',
-	default => 'Brag'
+	default => 'Brag',
 );
 
-belongs_to 'author' => (
+has 'author' => (
 	is => 'rw',
-	isa => 'FuckDiabetes::Data::User',
+	isa => 'Str',
 );
+
+has 'author_oid' => (
+  is => 'rw',
+  isa => 'Str',
+);
+
+sub author_oid_from_object {
+  my ($self, $aobj) = @_;
+  
+  return $self->author_oid($aobj->_id->{value}) unless (!ref($aobj) || !$aobj->isa(q{FuckDiabetes::Data::User}));
+  
+  return undef;
+}
 
 sub oid {
 	my ($self) = @_;
+
+  return undef unless (defined $self->_id);
 
 	return $self->_id->{value};
 }
@@ -65,8 +82,8 @@ sub timestamp_formatted {
 	my ($self) = @_;
 
 	if (ref($self->timestamp)) {
-		my $dtLocale = DateTime::Locale->load(Locale->new->locale());
-		$self->timestamp->set_time_zone(Locale->new->timezone());
+		my $dtLocale = DateTime::Locale->load(FuckDiabetes::Data::Locale->new->locale());
+		$self->timestamp->set_time_zone(FuckDiabetes::Data::Locale->new->timezone());
 		return $self->timestamp->format_cldr($dtLocale->datetime_format_medium());
 	}
 
@@ -105,18 +122,10 @@ sub find_by_id {
 sub find_all_by_author {
 	my ($pkg, $author) = @_;
 
-	my $aid = undef;
-
 	return undef unless defined $author;
 
-	if (ref($author) && $author->isa(q{FuckDiabetes::Data::User})) {
-		$aid = $author->oid;
-	} else {
-		$aid = $author;
-	}
-
 	return $pkg->find(
-		{author=>$aid},
+		{author=>$author},
 		{
 			sort_by => {timestamp=>1},
 			skip => 0,
