@@ -1,3 +1,25 @@
+=pod
+
+=head1 NAME
+
+FuckDiabetes::Model::Brag - A data model for Brag items within the FuckDiabetes application.
+
+=head1 SYNOPSIS
+
+ use FuckDiabetes::Model::Brag;
+
+=head1 DESCRIPTION
+
+In the FuckDiabetes application, each item is referred to as a E<Brag>. A brag can be either a glucose reading, a general statement, or something else (very TBD). This is the class which holds on to all of it.
+
+The roles of the E<Brag> are key. A role tells you whether the E<Brag> is a glucose reading, or is permitted to have comments.
+
+=head1 METHODS
+
+=over
+
+=cut
+
 use strict;
 use warnings;
 
@@ -6,6 +28,7 @@ use Mongoose::Class;
 use namespace::autoclean;
 
 use MongoDB::OID;
+use Moose::Util qw/apply_all_roles does_role/;
 
 use DateTime;
 use Data::Dumper;
@@ -17,6 +40,8 @@ with 'Mongoose::Document' => {
   -collection_name => 'brags',
   -pk              => [qw/ _id /],
 };
+
+with 'FuckDiabetes::Model::Role::Comment';
 
 has 'title' => (
   is  => 'rw',
@@ -41,10 +66,9 @@ has 'timestamp' => (
   default => sub { return DateTime->now(); },
 );
 
-has 'brag_schema' => (
+has 'roles' => (
   is      => 'ro',
-  isa     => 'Str',
-  default => 'Brag',
+  isa     => 'ArrayRef[Str]',
 );
 
 has 'author' => (
@@ -56,6 +80,14 @@ has 'author_oid' => (
   is  => 'rw',
   isa => 'Str',
 );
+
+=pod
+
+=item author_oid_from_object
+
+Since a E<Brag> is only loosely tied to a E<User> entity, we don't keep a formal reference. We do, however, want to have some way of tying back to a user. This is a convenience method which allows us to set the OID based on the E<User> object.
+
+=cut
 
 sub author_oid_from_object {
   my ( $self, $aobj ) = @_;
@@ -80,6 +112,14 @@ sub to_string {
   return $self->title . ': ' . $self->body;
 }
 
+=pod
+
+=item timestamp_formatted()
+
+This method returns a timestamp formatted for the current locale.
+
+=cut
+
 sub timestamp_formatted {
   my ($self) = @_;
 
@@ -95,25 +135,30 @@ sub timestamp_formatted {
   return "N/A";
 }
 
-sub apply_schema {
+=pod
+
+=item materialize()
+
+This method applies the roles to the instance.
+
+=cut
+
+sub materialize {
   my ($self) = @_;
-
-  my $className = "FuckDiabetes::Data";
-
-  if ( !defined( $self->brag_schema ) || length( $self->brag_schema ) > 0 ) {
-    $className .= "::Brag";
-  } else {
-    $className .= "::" . $self->brag_schemapkg;
+  
+  return if (!defined $self->roles || !ref $self->roles);
+  
+  my @roles_to_apply = ();
+  
+  for my $role (@{$self->roles}) {
+    if (!does_role($self, $role)) {
+      push @roles_to_apply, $role;
+    }
   }
-
-  print STDERR "Loading brag with classname '$className'\n";
-  print STDERR Dumper( $self->_id->value );
-  eval("use $className;");
-  my $instance = $className->find_one( $self->_id->value );
-
-  # print STDERR Dumper(ref $instance);
-
-  return $instance;
+  
+  apply_all_roles($self, @roles_to_apply);
+  
+  return $self;
 }
 
 sub find_by_id {
@@ -138,6 +183,12 @@ sub find_all_by_author {
     }
   );
 }
+
+=pod
+
+=back
+
+=cut
 
 no Moose;
 __PACKAGE__->meta->make_immutable;

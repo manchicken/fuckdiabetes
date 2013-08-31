@@ -1,12 +1,3 @@
-use strict;
-use warnings;
-
-package FuckDiabetes::Model::User;
-use Mongoose::Class;
-use namespace::autoclean;
-
-use FuckDiabetes::Model::Brag;
-
 =pod
 
 =head1 NAME
@@ -18,6 +9,15 @@ FuckDiabetes::Model::User - A data model for Users within the FuckDiabetes appli
  use FuckDiabetes::Model::User;
 
 =cut
+
+use strict;
+use warnings;
+
+package FuckDiabetes::Model::User;
+use Mongoose::Class;
+use namespace::autoclean;
+
+use FuckDiabetes::Model::Brag;
 
 with 'Mongoose::Document' => { -collection_name => 'fd_users', };
 
@@ -36,11 +36,6 @@ has 'date' => (
   isa     => 'DateTime',
   traits  => ['Raw'],
   default => sub { DateTime->now },
-);
-
-has_many 'brags' => (
-  is  => 'rw',
-  isa => q{FuckDiabetes::Model::Brag},
 );
 
 sub oid {

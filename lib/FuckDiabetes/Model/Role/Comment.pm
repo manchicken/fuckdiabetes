@@ -1,15 +1,35 @@
 use strict;use warnings;
 
-package FuckDiabetes::Brag::Comment;
-use Moose;
-use namespace::autoclean;
+package FuckDiabetes::Model::Role::Comment;
+use Moose::Role;
 
-extends 'FuckDiabetes::Data::Brag::Metadata';
+use DateTime;
+use FuckDiabetes::Model::Locale;
 
-has 'comment' => (
+has 'comments' => (
   is => 'rw',
-  isa => 'Str',
+  isa => 'ArrayRef[HashRef[Any]]',
 );
+
+has 'allows_comments' => (
+  is => 'rw',
+  isa => 'Bool',
+);
+
+sub add_comment {
+  my ($self, $new_comment) = @_;
+  
+  if (ref($new_comment) eq 'HASH') {
+    push @{$self->comments}, $new_comment;
+    return $self->comments;
+  }
+  
+  push @{$self->comments}, {
+    comment => $new_comment,
+    author => 'Anonymous',
+    timestamp => DateTime->now(time_stamp=>FuckDiabetes::Model::Locale->timezone),
+  };
+}
 
 sub to_string {
   my ($self) = @_;
@@ -17,6 +37,4 @@ sub to_string {
   return $self->comment;
 }
 
-no Moose;
-__PACKAGE__->meta->make_immutable;
 1;

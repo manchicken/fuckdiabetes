@@ -1,12 +1,21 @@
 use strict;use warnings;
 
 package FuckDiabetes::Brag::BloodGlucose;
-use Moose;
+use Moose::Role;
 use namespace::autoclean;
 
-extends 'FuckDiabetes::Data::Brag::Metadata';
-
 has 'reading' => (
+  is => 'rw',
+  isa => 'Num',
+);
+
+has 'units' => (
+  is => 'rw',
+  isa => enum(['mg/dL', 'mmol']),
+);
+
+# Before meal, after meal, etc...
+has 'event' => (
   is => 'rw',
   isa => 'Str',
 );
