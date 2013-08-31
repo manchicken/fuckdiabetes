@@ -2,7 +2,7 @@ package FuckDiabetes;
 use Mojo::Base 'Mojolicious';
 
 use Mongoose;
-use aliased 'FuckDiabetes::Data::FacebookSession' => 'FacebookSession';
+use aliased 'FuckDiabetes::Model::FacebookSession' => 'FacebookSession';
 
 # This method will run once at server start
 sub startup {

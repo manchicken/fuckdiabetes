@@ -1,18 +1,19 @@
-use strict;use warnings;
+use strict;
+use warnings;
 
-package FuckDiabetes::Data::Locale;
+package FuckDiabetes::Model::Locale;
 use Mongoose::Class;
 use namespace::autoclean;
 
 has 'locale' => (
-	is => 'rw',
-	isa => 'Str',
-	default => 'en_US',
+  is      => 'rw',
+  isa     => 'Str',
+  default => 'en_US',
 );
 
 has 'timezone' => (
-  is => 'rw',
-  isa => 'Str',
+  is      => 'rw',
+  isa     => 'Str',
   default => 'America/Chicago',
 );
 
